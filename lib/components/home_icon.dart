@@ -38,7 +38,7 @@ class _HomeIconState extends State<HomeIcon> {
         kVerticalGap10,
         Text(
           'Hit the road of your heart with Diary.',
-          style: kMessageStyles,
+          style: kMessageStyles.copyWith(decoration: TextDecoration.none),
         ),
         kVerticalGap50,
       ],
