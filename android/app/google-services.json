@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "712047875310",
+    "project_id": "personaldiary-bb61d",
+    "storage_bucket": "personaldiary-bb61d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:712047875310:android:5bdd5ee6add707f04f8fff",
+        "android_client_info": {
+          "package_name": "com.sapanravidas.personal_diary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "712047875310-boqunptnueohgkk7frd10c060ldv742d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbuP8weoduNgk8yRtnkfnnwfi_Pi2fFUg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "712047875310-boqunptnueohgkk7frd10c060ldv742d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
