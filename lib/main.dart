@@ -2,6 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:personal_diary/screens/fingerprint_authentication_screen.dart';
 import 'package:personal_diary/screens/home_Screen.dart';
+import 'package:personal_diary/screens/login_screen.dart';
+import 'package:personal_diary/screens/register_screen.dart';
 import 'package:personal_diary/screens/splash_screen.dart';
 
 void main() {
@@ -26,6 +28,8 @@ class MyApp extends StatelessWidget {
         HomeScreen.id: (context) => HomeScreen(),
         FingerPrintAuthenticationScreen.id: (context) =>
             FingerPrintAuthenticationScreen(),
+        RegisterScreen.id: (context) => RegisterScreen(),
+        LoginScreen.id: (context) => LoginScreen(),
       },
     );
   }

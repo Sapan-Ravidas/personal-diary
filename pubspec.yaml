@@ -43,6 +43,7 @@ dependencies:
   local_auth: ^1.1.6
   flutter_secure_storage: ^4.2.1
   font_awesome_flutter: ^9.1.0
+  modal_progress_hud_nsn: ^0.1.0-nullsafety-1
 
 dev_dependencies:
   flutter_test:

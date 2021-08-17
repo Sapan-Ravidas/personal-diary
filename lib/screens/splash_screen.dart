@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:personal_diary/components/home_icon.dart';
 import 'package:personal_diary/screens/home_Screen.dart';
+import 'package:personal_diary/utils/constants.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -23,10 +24,13 @@ class _SplashScreenState extends State<SplashScreen> {
         // navigate to diary page
       }
     });
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [HomeIcon()],
+    return Container(
+      decoration: kDecorationBox,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [HomeIcon()],
+      ),
     );
   }
 }

@@ -3,13 +3,27 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:personal_diary/utils/constants.dart';
 
 class HomeIcon extends StatefulWidget {
-  const HomeIcon({Key? key}) : super(key: key);
+  const HomeIcon({Key? key, this.iconsize}) : super(key: key);
+  final double? iconsize;
 
   @override
   _HomeIconState createState() => _HomeIconState();
 }
 
 class _HomeIconState extends State<HomeIcon> {
+  double iconsize = 60.0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.iconsize != null) {
+      setState(() {
+        iconsize = widget.iconsize!;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -18,10 +32,11 @@ class _HomeIconState extends State<HomeIcon> {
           tag: kHeroLogoTag,
           child: Icon(
             FontAwesomeIcons.bookReader,
-            size: 60.0,
-            color: Color.fromRGBO(245, 48, 111, 1),
+            size: iconsize,
+            color: const Color.fromRGBO(245, 48, 111, 1),
           ),
         ),
+        kVerticalGap10,
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

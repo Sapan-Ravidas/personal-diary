@@ -3,7 +3,10 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:personal_diary/components/home_icon.dart';
+import 'package:personal_diary/components/navigation_link.dart';
 import 'package:personal_diary/components/rounded_button.dart';
+import 'package:personal_diary/screens/login_screen.dart';
+import 'package:personal_diary/screens/register_screen.dart';
 import 'package:personal_diary/utils/constants.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -18,15 +21,19 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: kDecorationBox,
       child: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 40.0, horizontal: 30.0),
+          padding: EdgeInsets.symmetric(vertical: 45.0, horizontal: 30.0),
           child: Center(
             child: Column(
               children: [
                 //
 
-                HomeIcon(),
+                HomeIcon(
+                  iconsize: 160.0,
+                ),
+
                 RoundedButton(
                   icon: FontAwesomeIcons.google,
                   color: Colors.red,
@@ -45,28 +52,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 RoundedButton(
                   color: Colors.red,
                   title: 'Sign Up',
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, RegisterScreen.id);
+                  },
                 ),
 
                 //
 
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Alredy have an account?',
-                      style: kMessageStyles,
-                    ),
-                    SizedBox(width: 5.0),
-                    Text(
-                      'LOGIN',
-                      style: kMessageStyles.copyWith(
-                        color: Colors.yellowAccent,
-                        decoration: TextDecoration.none,
-                      ),
-                    ),
-                  ],
+                kVerticalGap20,
+
+                NavigationLink(
+                  helpText: 'Already have an Account?',
+                  linktext: 'LOGIN',
+                  onPressed: () {
+                    Navigator.pushNamed(context, LoginScreen.id);
+                  },
                 ),
               ],
             ),
