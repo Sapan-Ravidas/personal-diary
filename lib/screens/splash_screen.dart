@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:personal_diary/components/home_icon.dart';
+import 'package:personal_diary/screens/home_Screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -9,12 +12,21 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  FirebaseAuth auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: FlutterLogo(
-        size: 100.0,
-      ),
+    Future.delayed(const Duration(seconds: 2), () {
+      if (auth.currentUser == null) {
+        Navigator.pushReplacementNamed(context, HomeScreen.id);
+      } else {
+        // navigate to diary page
+      }
+    });
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [HomeIcon()],
     );
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:personal_diary/screens/homr_Screen.dart';
+import 'package:personal_diary/screens/home_Screen.dart';
 import 'package:personal_diary/screens/splash_screen.dart';
 
 class FingerPrintAuthenticationScreen extends StatefulWidget {

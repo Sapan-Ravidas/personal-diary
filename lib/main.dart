@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:personal_diary/screens/fingerprint_authentication_screen.dart';
-import 'package:personal_diary/screens/homr_Screen.dart';
+import 'package:personal_diary/screens/home_Screen.dart';
 import 'package:personal_diary/screens/splash_screen.dart';
 
 void main() {
@@ -19,8 +19,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: FingerPrintAuthenticationScreen.id,
+      initialRoute: InitFire.id,
       routes: {
+        InitFire.id: (context) => InitFire(),
         SplashScreen.id: (context) => SplashScreen(),
         HomeScreen.id: (context) => HomeScreen(),
         FingerPrintAuthenticationScreen.id: (context) =>
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
 
 class InitFire extends StatefulWidget {
   const InitFire({Key? key}) : super(key: key);
+  static String id = 'initFirebase';
 
   @override
   _InitFireState createState() => _InitFireState();
@@ -48,12 +50,14 @@ class _InitFireState extends State<InitFire> {
       builder: (context, snapshot) {
         // Check for errors
         if (snapshot.hasError) {
-          return Container();
+          return Container(
+            child: Text('some error occured'),
+          );
         }
 
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
-          return SplashScreen();
+          return FingerPrintAuthenticationScreen();
         }
 
         // Otherwise, show something whilst waiting for initialization to complete
