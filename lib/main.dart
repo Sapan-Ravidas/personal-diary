@@ -1,10 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:personal_diary/screens/fingerprint_authentication_screen.dart';
-import 'package:personal_diary/screens/home_Screen.dart';
-import 'package:personal_diary/screens/login_screen.dart';
-import 'package:personal_diary/screens/register_screen.dart';
-import 'package:personal_diary/screens/splash_screen.dart';
+import 'package:personal_diary/screens/dairy_screens/diary_home.dart';
+import 'package:personal_diary/screens/dairy_screens/edit_diary/edit_diary_screen.dart';
+import 'package:personal_diary/screens/initial_screens/fingerprint_authentication_screen.dart';
+import 'package:personal_diary/screens/initial_screens/authentication_screen.dart';
+import 'package:personal_diary/screens/initial_screens/login_screen.dart';
+import 'package:personal_diary/screens/initial_screens/register_screen.dart';
+import 'package:personal_diary/screens/initial_screens/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,17 +21,19 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
       ),
       initialRoute: InitFire.id,
       routes: {
         InitFire.id: (context) => InitFire(),
         SplashScreen.id: (context) => SplashScreen(),
-        HomeScreen.id: (context) => HomeScreen(),
+        AuthenticationScreen.id: (context) => AuthenticationScreen(),
         FingerPrintAuthenticationScreen.id: (context) =>
             FingerPrintAuthenticationScreen(),
         RegisterScreen.id: (context) => RegisterScreen(),
         LoginScreen.id: (context) => LoginScreen(),
+        EditDiaryScreen.id: (context) => EditDiaryScreen(),
+        DiaryHome.id: (context) => DiaryHome(),
       },
     );
   }

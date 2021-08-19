@@ -74,3 +74,17 @@ const kFormInputDecoration = InputDecoration(
     ),
   ),
 );
+
+// -----------------------------------------------------------------------------
+// Diary
+// -----------------------------------------------------------------------------
+
+const kDiaryTextFieldDecoration = InputDecoration(
+  hintText: 'hint text...',
+  border: InputBorder.none,
+);
+
+const kDiaryNoteTitle = TextStyle(
+  fontWeight: FontWeight.bold,
+  fontSize: 30.0,
+);

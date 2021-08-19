@@ -5,19 +5,19 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:personal_diary/components/home_icon.dart';
 import 'package:personal_diary/components/navigation_link.dart';
 import 'package:personal_diary/components/rounded_button.dart';
-import 'package:personal_diary/screens/login_screen.dart';
-import 'package:personal_diary/screens/register_screen.dart';
+import 'package:personal_diary/screens/initial_screens/login_screen.dart';
+import 'package:personal_diary/screens/initial_screens/register_screen.dart';
 import 'package:personal_diary/utils/constants.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
-  static String id = 'home_screen';
+class AuthenticationScreen extends StatefulWidget {
+  const AuthenticationScreen({Key? key}) : super(key: key);
+  static String id = 'auth_screen';
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _AuthenticationScreenState createState() => _AuthenticationScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _AuthenticationScreenState extends State<AuthenticationScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(

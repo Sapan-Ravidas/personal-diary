@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:personal_diary/components/home_icon.dart';
 import 'package:personal_diary/components/navigation_link.dart';
 import 'package:personal_diary/components/rounded_button.dart';
-import 'package:personal_diary/screens/register_screen.dart';
+import 'package:personal_diary/screens/dairy_screens/diary_home.dart';
+import 'package:personal_diary/screens/dairy_screens/edit_diary/edit_diary_screen.dart';
+import 'package:personal_diary/screens/initial_screens/register_screen.dart';
 import 'package:personal_diary/utils/constants.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -74,7 +76,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   helpText: 'Need an Account?',
                   linktext: 'SIGN-UP',
                   onPressed: () {
-                    Navigator.pushNamed(context, RegisterScreen.id);
+                    // just for now
+                    print('got to edit diary');
+                    Navigator.pushNamed(context, DiaryHome.id);
+                    // Navigator.pushNamed(context, RegisterScreen.id);
                   },
                 ),
               ],
