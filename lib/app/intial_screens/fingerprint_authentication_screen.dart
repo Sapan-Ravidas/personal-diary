@@ -22,6 +22,7 @@ class _FingerPrintAuthenticationScreenState
 
   // ---------------------------------------------------------------------------
   // this function allow us to check out biometric sensor
+
   Future<void> _checkBiometrics() async {
     late bool canCheckBiometrics;
     try {
@@ -37,6 +38,7 @@ class _FingerPrintAuthenticationScreenState
   }
 
   // get the available biometric sensors from our device
+
   Future<void> _getAvailableBiometrics() async {
     late List<BiometricType> availableBiometrics;
     try {
@@ -53,6 +55,7 @@ class _FingerPrintAuthenticationScreenState
   }
 
   // authentication function
+
   Future<void> _authenticate() async {
     bool authenticated = false;
     try {
@@ -85,12 +88,15 @@ class _FingerPrintAuthenticationScreenState
     _authenticate();
   }
 
+  // ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         decoration: kDecorationBox,
-        padding: EdgeInsets.symmetric(vertical: 150.0),
+        padding: const EdgeInsets.symmetric(vertical: 150.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [

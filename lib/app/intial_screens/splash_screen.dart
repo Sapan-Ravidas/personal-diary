@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:personal_diary/app/diary/home_page.dart';
 import 'package:personal_diary/app/intial_screens/authentication_screen.dart';
 import 'package:personal_diary/components/home_icon.dart';
 import 'package:personal_diary/utils/constants.dart';
@@ -17,11 +18,11 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 1), () {
       if (auth.currentUser == null) {
         Navigator.pushReplacementNamed(context, AuthenticationScreen.id);
       } else {
-        // navigate to diary page
+        Navigator.pushReplacementNamed(context, HomePage.id);
       }
     });
     return Container(
