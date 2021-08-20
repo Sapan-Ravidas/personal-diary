@@ -1,12 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:personal_diary/screens/dairy_screens/diary_home.dart';
-import 'package:personal_diary/screens/dairy_screens/edit_diary/edit_diary_screen.dart';
-import 'package:personal_diary/screens/initial_screens/fingerprint_authentication_screen.dart';
-import 'package:personal_diary/screens/initial_screens/authentication_screen.dart';
-import 'package:personal_diary/screens/initial_screens/login_screen.dart';
-import 'package:personal_diary/screens/initial_screens/register_screen.dart';
-import 'package:personal_diary/screens/initial_screens/splash_screen.dart';
+import 'package:personal_diary/app/intial_screens/authentication_screen.dart';
+import 'package:personal_diary/app/intial_screens/fingerprint_authentication_screen.dart';
+import 'package:personal_diary/app/intial_screens/login_screen.dart';
+import 'package:personal_diary/app/intial_screens/register_screen.dart';
+import 'package:personal_diary/app/intial_screens/splash_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,29 +14,28 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-      ),
-      initialRoute: InitFire.id,
-      routes: {
-        InitFire.id: (context) => InitFire(),
-        SplashScreen.id: (context) => SplashScreen(),
-        AuthenticationScreen.id: (context) => AuthenticationScreen(),
-        FingerPrintAuthenticationScreen.id: (context) =>
-            FingerPrintAuthenticationScreen(),
-        RegisterScreen.id: (context) => RegisterScreen(),
-        LoginScreen.id: (context) => LoginScreen(),
-        EditDiaryScreen.id: (context) => EditDiaryScreen(),
-        DiaryHome.id: (context) => DiaryHome(),
-      },
-    );
-  }
+  Widget build(BuildContext context) => MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.red,
+        ),
+        initialRoute: InitFire.id,
+        routes: {
+          InitFire.id: (context) =>
+              const InitFire(), // This is initiazation of our firebase instance and entry point of App
+          SplashScreen.id: (context) => const SplashScreen(),
+          AuthenticationScreen.id: (context) => const AuthenticationScreen(),
+          FingerPrintAuthenticationScreen.id: (context) =>
+              const FingerPrintAuthenticationScreen(),
+          RegisterScreen.id: (context) => const RegisterScreen(),
+          LoginScreen.id: (context) => const LoginScreen(),
+        },
+      );
 }
+
+// This Seperate state is build to handle the situation when app will not able to initialze firebase instance
+// TODO : Those scenerios is still to handle
 
 class InitFire extends StatefulWidget {
   const InitFire({Key? key}) : super(key: key);
@@ -54,12 +52,13 @@ class _InitFireState extends State<InitFire> {
   Widget build(BuildContext context) {
     return FutureBuilder(
       // Initialize FlutterFire:
+
       future: _initialization,
       builder: (context, snapshot) {
         // Check for errors
         if (snapshot.hasError) {
           return Container(
-            child: Text('some error occured'),
+            child: const Text('some error occured'),
           );
         }
 
@@ -69,7 +68,7 @@ class _InitFireState extends State<InitFire> {
         }
 
         // Otherwise, show something whilst waiting for initialization to complete
-        return Center(
+        return const Center(
           child: CircularProgressIndicator(),
         );
       },

@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:personal_diary/components/home_icon.dart';
 import 'package:personal_diary/components/navigation_link.dart';
 import 'package:personal_diary/components/rounded_button.dart';
-import 'package:personal_diary/screens/initial_screens/login_screen.dart';
-import 'package:personal_diary/utils/constants.dart';
 
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
-  static String id = 'registerScreen';
+import 'package:personal_diary/utils/constants.dart';
+import 'package:provider/provider.dart';
+
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+  static String id = 'loginScreen';
 
   @override
-  _RegisterScreenState createState() => _RegisterScreenState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
-  bool showSpinner = false;
-
-  // ---------------------------------------------------------------------------
+class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,9 +31,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 //
 
-                Center(
+                const Center(
                   child: Text(
-                    'REGISTER',
+                    'LOGIN',
                     style: kLoginSignUpTextStyle,
                   ),
                 ),
@@ -62,32 +59,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   decoration:
                       kFormInputDecoration.copyWith(hintText: 'Enter Password'),
                 ),
-                kVerticalGap10,
 
                 //
-
-                TextField(
-                  keyboardType: TextInputType.emailAddress,
-                  onChanged: (value) {},
-                  textAlign: TextAlign.center,
-                  decoration: kFormInputDecoration.copyWith(
-                      hintText: 'Confirm Password'),
-                ),
 
                 kVerticalGap20,
                 RoundedButton(
                   color: Colors.red,
-                  title: 'Sign Up',
+                  title: 'Sign In',
                   onPressed: () {},
                 ),
 
                 //
                 kVerticalGap20,
                 NavigationLink(
-                  helpText: 'Already have an Account?',
-                  linktext: 'LOGIN',
+                  helpText: 'Need an Account?',
+                  linktext: 'SIGN-UP',
                   onPressed: () {
-                    Navigator.pushNamed(context, LoginScreen.id);
+                    // just for now
+                    print('got to edit diary');
+
+                    // Navigator.pushNamed(context, RegisterScreen.id);
                   },
                 ),
               ],
