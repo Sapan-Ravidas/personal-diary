@@ -22,19 +22,22 @@ class AuthenticationScreen extends StatefulWidget {
 
 class _AuthenticationScreenState extends State<AuthenticationScreen> {
   bool showSpinner = false;
+  final googleService = GoogleSignInService();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: kDecorationBox,
-      child: ModalProgressHUD(
+    return Scaffold(
+      // resizeToAvoidBottomInset: false,
+      body: ModalProgressHUD(
         inAsyncCall: showSpinner,
-        child: SafeArea(
-          child: Padding(
-            padding:
-                const EdgeInsets.symmetric(vertical: 45.0, horizontal: 30.0),
+        child: Container(
+          decoration: kDecorationBox,
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 40.0),
+          child: SafeArea(
             child: Center(
-              child: Column(
+              child: ListView(
                 children: [
                   //
 
@@ -51,10 +54,8 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                         showSpinner = true;
                       });
                       try {
-                        final g = GoogleSignInService();
-                        final user = await g.login();
-                        print("This is to check user when try to login");
-                        print(user);
+                        final user = await googleService.login();
+
                         if (user != null) {
                           Navigator.pushReplacementNamed(context, HomePage.id);
                         }
@@ -65,18 +66,11 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                         setState(() {
                           showSpinner = false;
                         });
-                        print("Error Ocuured");
                       }
                     },
                   ),
 
                   //
-
-                  RoundedButton(
-                      icon: FontAwesomeIcons.facebookF,
-                      color: Colors.red,
-                      title: 'Continue with Facebook',
-                      onPressed: () {}),
 
                   RoundedButton(
                     color: Colors.red,

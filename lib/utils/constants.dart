@@ -93,12 +93,13 @@ const kFormInputDecoration = InputDecoration(
 // Diary
 // -----------------------------------------------------------------------------
 
-const kDiaryTextFieldDecoration = InputDecoration(
-  hintText: 'hint text...',
+const kEditDiaryTitleDecoration = InputDecoration(
+  hintText: 'Title',
   border: InputBorder.none,
+  counterText: '',
 );
 
-const kDiaryNoteTitle = TextStyle(
+const kEditDiaryTitleStyle = TextStyle(
+  fontSize: 22.0,
   fontWeight: FontWeight.bold,
-  fontSize: 30.0,
 );
