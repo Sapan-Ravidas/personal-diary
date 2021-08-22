@@ -54,6 +54,19 @@ const kDecorationBox = BoxDecoration(
 
 const kFormInputDecoration = InputDecoration(
   errorStyle: TextStyle(color: Colors.yellow),
+  errorMaxLines: 2,
+  errorBorder: OutlineInputBorder(
+    borderSide: BorderSide(
+      color: Colors.yellow,
+      width: 1.5,
+    ),
+    borderRadius: BorderRadius.all(Radius.circular(32.0)),
+  ),
+  focusedErrorBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.all(Radius.circular(32.0)),
+    borderSide: BorderSide(color: Colors.yellow, width: 1.5),
+  ),
+  //
   hintText: 'Enter Field',
   hintStyle: TextStyle(color: Colors.white60),
   contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
@@ -67,6 +80,7 @@ const kFormInputDecoration = InputDecoration(
     ),
     borderRadius: BorderRadius.all(Radius.circular(32.0)),
   ),
+  focusColor: Colors.white,
   focusedBorder: OutlineInputBorder(
     borderSide: BorderSide(color: Colors.white),
     borderRadius: BorderRadius.all(

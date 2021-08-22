@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:local_auth/error_codes.dart';
 import 'package:personal_diary/app/intial_screens/authentication_screen.dart';
+import 'package:personal_diary/models/user.dart';
+import 'package:personal_diary/services/email_auth_service.dart';
 import 'package:personal_diary/services/google_signin_services.dart';
 import 'package:personal_diary/utils/constants.dart';
 
@@ -15,8 +17,24 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final user = FirebaseAuth.instance.currentUser;
+  String? profilePic;
+  UserProfile? user;
+
+  final emailAuthSerice = EmailAuthService();
   final googleService = GoogleSignInService();
+
+  @override
+  void initState() {
+    super.initState();
+    final fireUser = FirebaseAuth.instance.currentUser;
+    print(fireUser);
+    final name = fireUser!.displayName;
+    final email = fireUser.email;
+    profilePic = fireUser.photoURL ??
+        'https://thumbs.dreamstime.com/z/default-avatar-profile-icon-social-media-user-vector-default-avatar-profile-icon-social-media-user-vector-portrait-176194876.jpg';
+    user =
+        UserProfile(email: email!, name: name ?? '', profilePic: profilePic!);
+  }
 
   // -------------------------------------------------------------
   @override
@@ -36,15 +54,15 @@ class _HomePageState extends State<HomePage> {
             ),
             //
             kVerticalGap10,
+
             CircleAvatar(
               maxRadius: 25.0,
-              backgroundImage: NetworkImage('${user!.photoURL}'),
+              backgroundImage: NetworkImage('${user!.profilePic}'),
             ),
 
-            //
             kVerticalGap10,
             Text(
-              'Name : ${user!.displayName}',
+              'Name : ${user!.name}',
             ),
 
             Text(
@@ -53,14 +71,12 @@ class _HomePageState extends State<HomePage> {
             kVerticalGap20,
             ElevatedButton(
                 onPressed: () async {
-                  try {
-                    final g = GoogleSignIn();
-                    await g.disconnect();
-                    await FirebaseAuth.instance.signOut();
+                  final result = await emailAuthSerice.logout();
+                  if (result) {
                     Navigator.pushNamedAndRemoveUntil(
                         context, AuthenticationScreen.id, (route) => false);
-                  } catch (error) {
-                    print("Error ocuured in logout Process");
+                  } else {
+                    print('Exception on logout');
                   }
                 },
                 child: const Text('Logour'))

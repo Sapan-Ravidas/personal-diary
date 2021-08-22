@@ -1,18 +1,15 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:personal_diary/app/diary/home_page.dart';
-
 import 'package:personal_diary/app/intial_screens/login_screen.dart';
 import 'package:personal_diary/app/intial_screens/register_screen.dart';
 import 'package:personal_diary/components/home_icon.dart';
 import 'package:personal_diary/components/navigation_link.dart';
 import 'package:personal_diary/components/rounded_button.dart';
 import 'package:personal_diary/services/google_signin_services.dart';
-
 import 'package:personal_diary/utils/constants.dart';
 
 class AuthenticationScreen extends StatefulWidget {
