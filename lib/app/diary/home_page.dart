@@ -55,7 +55,9 @@ class _HomePageState extends State<HomePage> {
       ),
       //
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, EditDiary.id);
+        },
         child: const Icon(Icons.add),
         tooltip: 'Add Memories',
       ),

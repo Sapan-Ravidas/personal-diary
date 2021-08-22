@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:personal_diary/app/intial_screens/authentication_screen.dart';
 import 'package:personal_diary/models/user.dart';
 import 'package:personal_diary/utils/constants.dart';
 
@@ -53,7 +55,16 @@ class _UserProfilePageState extends State<UserProfilePage> {
             ),
             kVerticalGap10,
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () async {
+                final auth = FirebaseAuth.instance;
+                try {
+                  await auth.signOut();
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, AuthenticationScreen.id, (route) => false);
+                } catch (error) {
+                  print(error);
+                }
+              },
               child: const Text('Logout'),
             ),
           ],
