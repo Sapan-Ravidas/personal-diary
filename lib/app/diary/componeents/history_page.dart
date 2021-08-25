@@ -91,39 +91,68 @@ class _HistoryPageState extends State<HistoryPage> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('users')
-            .doc(fireUser!.uid)
-            .collection('notes')
-            .snapshots(),
-        builder: (context, snapshot) {
-          return snapshot.hasData
-              ? CustomScrollView(
-                  slivers: [
-                    buildSliverAppbar(context),
-                    SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (context, index) {
-                          //
-                          dynamic data = snapshot.data!.docs
-                              .map((DocumentSnapshot document) {
-                            //
-                            Map<String, dynamic> data =
-                                document.data()! as Map<String, dynamic>;
-                          });
-                          print(data);
-                        },
-                      ),
-                    ),
-                  ],
-                )
-              : CustomScrollView(
-                  slivers: [
-                    buildSliverAppbar(context),
-                  ],
+    return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 70.0,
+        leading: Expanded(
+          child: GestureDetector(
+            onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => UserProfilePage(user: user!))),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CircleAvatar(
+                  maxRadius: 25.0,
+                  backgroundImage: NetworkImage('${user!.profilePic}'),
+                ),
+              ],
+            ),
+          ),
+        ),
+        title: Expanded(
+            child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            user!.name != null
+                ? Text(
+                    '${user!.name}',
+                    style: TextStyle(fontSize: 14.0),
+                  )
+                : Container(),
+            Text('${user!.email}'),
+          ],
+        )),
+        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.logout))],
+      ),
+      body: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection('users')
+              .doc(fireUser!.uid)
+              .collection('notes')
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return Text('Something went wrong');
+            }
+
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Text("Loading");
+            }
+            return ListView(
+              children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                Map<String, dynamic> data =
+                    document.data()! as Map<String, dynamic>;
+                return ListTile(
+                  title: Text(data['title']),
+                  subtitle: Text(''),
                 );
-        });
+              }).toList(),
+            );
+          }),
+    );
   }
 }
 
@@ -132,11 +161,6 @@ class _HistoryPageState extends State<HistoryPage> {
 
 
 
-//               //
-//              SliverList( 
-//                   delegate: SliverChildBuilderDelegate((context, index) {}))
-//             ],
-//           );
 
 
 
