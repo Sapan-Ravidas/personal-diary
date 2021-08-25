@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:personal_diary/models/notes.dart';
+import 'package:personal_diary/services/note_provider.dart';
 import 'package:personal_diary/utils/constants.dart';
 
 class EditDiary extends StatefulWidget {
@@ -11,6 +13,10 @@ class EditDiary extends StatefulWidget {
 }
 
 class _EditDiaryState extends State<EditDiary> {
+  final _formKey = GlobalKey<FormState>();
+  String? title, desciption;
+  final noteProvider = NoteProvider();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +26,21 @@ class _EditDiaryState extends State<EditDiary> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.pop(context);
+              if (_formKey.currentState!.validate()) {
+                try {
+                  noteProvider.createNote(
+                    Note(
+                      title: title,
+                      description: desciption,
+                      dateCreated: DateTime.now(),
+                    ),
+                  );
+                  // Navigate back
+                  Navigator.pop(context);
+                } catch (error) {
+                  print("Error in saving data");
+                }
+              }
             },
             icon: const Icon(Icons.cancel_sharp),
           ),
@@ -32,22 +52,33 @@ class _EditDiaryState extends State<EditDiary> {
           height: MediaQuery.of(context).size.height,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: ListView(
-              children: [
-                TextFormField(
-                  decoration: kEditDiaryTitleDecoration,
-                  style: kEditDiaryTitleStyle,
-                  maxLength: 30,
-                ),
-                TextField(
-                  keyboardType: TextInputType.multiline,
-                  minLines: 1,
-                  maxLines: null,
-                  decoration: kEditDiaryTitleDecoration.copyWith(
-                      hintText: 'Your Memories...'),
-                  autofocus: false,
-                ),
-              ],
+            child: Form(
+              key: _formKey,
+              child: ListView(
+                children: [
+                  TextFormField(
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'This field is required';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) => setState(() => title = value),
+                    decoration: kEditDiaryTitleDecoration,
+                    style: kEditDiaryTitleStyle,
+                    maxLength: 30,
+                  ),
+                  TextField(
+                    onChanged: (value) => setState(() => desciption = value),
+                    keyboardType: TextInputType.multiline,
+                    minLines: 1,
+                    maxLines: null,
+                    decoration: kEditDiaryTitleDecoration.copyWith(
+                        hintText: 'Your Memories...'),
+                    autofocus: false,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

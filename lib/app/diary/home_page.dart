@@ -1,14 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:local_auth/error_codes.dart';
 import 'package:personal_diary/app/diary/componeents/history_page.dart';
 import 'package:personal_diary/app/diary/edit_diary.dart';
-import 'package:personal_diary/app/intial_screens/authentication_screen.dart';
-import 'package:personal_diary/models/user.dart';
-import 'package:personal_diary/services/email_auth_service.dart';
-import 'package:personal_diary/services/google_signin_services.dart';
-import 'package:personal_diary/utils/constants.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
