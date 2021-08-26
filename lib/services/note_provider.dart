@@ -17,4 +17,13 @@ class NoteProvider {
   }
 
   //
+
+  Future deleteNote({String? noteId, String? uid}) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('notes')
+        .doc(noteId)
+        .delete();
+  }
 }

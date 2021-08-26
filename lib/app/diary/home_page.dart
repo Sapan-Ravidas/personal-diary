@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:personal_diary/app/diary/calendar_screen.dart';
+import 'package:personal_diary/app/diary/componeents/calendarwidget.dart';
 import 'package:personal_diary/app/diary/componeents/history_page.dart';
 import 'package:personal_diary/app/diary/edit_diary.dart';
 
@@ -14,11 +16,7 @@ class _HomePageState extends State<HomePage> {
   int selectedIndex = 0;
   final tabs = [
     HistoryPage(),
-    Container(
-      child: Center(
-        child: Text('Calendar Page'),
-      ),
-    ),
+    CalendarScreen(),
   ];
 
   // ---------------------------------------------------------------------------

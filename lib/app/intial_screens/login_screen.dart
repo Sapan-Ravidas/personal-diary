@@ -8,7 +8,6 @@ import 'package:personal_diary/components/navigation_link.dart';
 import 'package:personal_diary/components/rounded_button.dart';
 import 'package:personal_diary/services/email_auth_service.dart';
 import 'package:personal_diary/utils/constants.dart';
-import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);

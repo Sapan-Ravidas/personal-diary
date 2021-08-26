@@ -103,3 +103,30 @@ const kEditDiaryTitleStyle = TextStyle(
   fontSize: 22.0,
   fontWeight: FontWeight.bold,
 );
+
+// -----------------------------------------------------------------------------
+// NotesnStyles
+// -----------------------------------------------------------------------------
+
+const kNoteHeadingStyle = TextStyle(
+  fontWeight: FontWeight.bold,
+  fontSize: 20.0,
+  color: Colors.redAccent,
+);
+
+const kNoteDescriptionStyle = TextStyle(fontSize: 16.0);
+
+const kNoteDateCreatedStyle = TextStyle(fontSize: 10.0);
+
+const kNoteDecorationStyle = BoxDecoration(
+  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+  color: Colors.white,
+  boxShadow: [
+    BoxShadow(
+      color: Colors.black,
+      blurRadius: 2.0,
+      spreadRadius: 0.0,
+      offset: Offset(2.0, 2.0),
+    )
+  ],
+);

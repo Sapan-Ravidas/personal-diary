@@ -1,11 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:personal_diary/app/diary/profile_page.dart';
+import 'package:personal_diary/app/intial_screens/authentication_screen.dart';
 import 'package:personal_diary/models/user.dart';
 import 'package:personal_diary/services/email_auth_service.dart';
 import 'package:personal_diary/services/google_signin_services.dart';
+import 'package:personal_diary/services/note_provider.dart';
 import 'package:personal_diary/utils/constants.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({Key? key}) : super(key: key);
@@ -39,59 +43,10 @@ class _HistoryPageState extends State<HistoryPage> {
 
   // ---------------------------------------------------------------------------
 
-  Widget buildSliverAppbar(BuildContext context) {
-    return SliverAppBar(
-      backgroundColor: Colors.white.withOpacity(0.6),
-      floating: true,
-      expandedHeight: 110.0,
-      flexibleSpace: FlexibleSpaceBar(
-        title: GestureDetector(
-          onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => UserProfilePage(user: user!))),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              CircleAvatar(
-                maxRadius: 25.0,
-                backgroundImage: NetworkImage('${user!.profilePic}'),
-              ),
-              kHorizontalGap10,
-              Expanded(
-                  child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  user!.name != null
-                      ? Text(
-                          '${user!.name}',
-                          style: const TextStyle(
-                              fontSize: 10.0, color: Colors.black87),
-                        )
-                      : Container(),
-                  Text(
-                    '${user!.email}',
-                    style: TextStyle(
-                      color: Colors.black87,
-                      fontSize: 10.0,
-                    ),
-                  )
-                ],
-              )),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  // ---------------------------------------------------------------------------
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white10,
       appBar: AppBar(
         toolbarHeight: 70.0,
         leading: Expanded(
@@ -125,131 +80,90 @@ class _HistoryPageState extends State<HistoryPage> {
             Text('${user!.email}'),
           ],
         )),
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.logout))],
+        actions: [
+          IconButton(
+              onPressed: () async {
+                bool result = await emailAuthSerice.logout();
+                if (result)
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, AuthenticationScreen.id, (route) => false);
+                else
+                  print("Error in logout");
+              },
+              icon: const Icon(Icons.logout))
+        ],
       ),
       body: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance
-              .collection('users')
-              .doc(fireUser!.uid)
-              .collection('notes')
-              .snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return Text('Something went wrong');
-            }
+        stream: FirebaseFirestore.instance
+            .collection('users')
+            .doc(fireUser!.uid)
+            .collection('notes')
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return const Text('Something went wrong');
+          }
 
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Text("Loading");
-            }
-            return ListView(
-              children: snapshot.data!.docs.map((DocumentSnapshot document) {
-                Map<String, dynamic> data =
-                    document.data()! as Map<String, dynamic>;
-                return ListTile(
-                  title: Text(data['title']),
-                  subtitle: Text(''),
-                );
-              }).toList(),
-            );
-          }),
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Text("Loading...");
+          }
+          return ListView(
+            children: snapshot.data!.docs.map((DocumentSnapshot document) {
+              Map<String, dynamic> data =
+                  document.data()! as Map<String, dynamic>;
+              return Container(
+                margin: const EdgeInsets.all(8.0),
+                decoration: kNoteDecorationStyle,
+                child: Slidable(
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(16.0)),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 12.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            DateFormat.yMMMd()
+                                .format(data['dateCreated'].toDate()),
+                            style: kNoteDateCreatedStyle,
+                          ),
+                          kVerticalGap5,
+                          Text(
+                            data['title'],
+                            style: kNoteHeadingStyle,
+                          ),
+                          kVerticalGap10,
+                          Text(
+                            data['description'] ?? '',
+                            style: kNoteDescriptionStyle,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  actionPane: const SlidableDrawerActionPane(),
+                  secondaryActions: [
+                    IconButton(
+                      onPressed: () async {
+                        try {
+                          final noteProvider = NoteProvider();
+                          await noteProvider.deleteNote(
+                              noteId: data['id'], uid: fireUser!.uid);
+                          setState(() {});
+                        } catch (error) {
+                          print("Error in deletion");
+                        }
+                      },
+                      icon: const Icon(Icons.delete),
+                    ),
+                  ],
+                ),
+              );
+            }).toList(),
+          );
+        },
+      ),
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Padding(
-//             padding:
-//                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-//             child: ClipRRect(
-//               borderRadius: BorderRadius.circular(16.0),
-//               child: Container(
-//                   color: Colors.white,
-//                   child: Padding(
-//                     padding:
-//                         EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
-//                     child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: [
-//                         Text(
-//                           'Date',
-//                           style: TextStyle(
-//                             color: Colors.black,
-//                             fontSize: 14.0,
-//                           ),
-//                         ),
-//                         kVerticalGap10,
-//                         Text(
-//                           'Title',
-//                           style: TextStyle(
-//                             color: Colors.black,
-//                             fontWeight: FontWeight.bold,
-//                             fontSize: 16.0,
-//                           ),
-//                         ),
-//                         Text(
-//                           'Description',
-//                           style: TextStyle(
-//                             color: Colors.black,
-//                             fontSize: 12.0,
-//                           ),
-//                         ),
-//                       ],
-//                     ),
-//                   )),
-//             ),
-//           ),

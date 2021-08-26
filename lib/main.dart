@@ -7,7 +7,6 @@ import 'package:personal_diary/app/intial_screens/fingerprint_authentication_scr
 import 'package:personal_diary/app/intial_screens/login_screen.dart';
 import 'package:personal_diary/app/intial_screens/register_screen.dart';
 import 'package:personal_diary/app/intial_screens/splash_screen.dart';
-import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
