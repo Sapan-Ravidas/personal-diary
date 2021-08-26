@@ -98,6 +98,7 @@ class _HistoryPageState extends State<HistoryPage> {
             .collection('users')
             .doc(fireUser!.uid)
             .collection('notes')
+            .orderBy('dateCreated', descending: true)
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {

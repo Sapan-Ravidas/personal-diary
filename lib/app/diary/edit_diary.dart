@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:personal_diary/models/notes.dart';
@@ -5,8 +6,10 @@ import 'package:personal_diary/services/note_provider.dart';
 import 'package:personal_diary/utils/constants.dart';
 
 class EditDiary extends StatefulWidget {
-  const EditDiary({Key? key}) : super(key: key);
+  EditDiary({Key? key, this.note}) : super(key: key);
   static final String id = 'editDiary';
+
+  Note? note;
 
   @override
   _EditDiaryState createState() => _EditDiaryState();
@@ -14,9 +17,19 @@ class EditDiary extends StatefulWidget {
 
 class _EditDiaryState extends State<EditDiary> {
   final _formKey = GlobalKey<FormState>();
-  String? title, desciption;
+  String? title, description;
   final noteProvider = NoteProvider();
+  Note? note;
 
+  @override
+  void initState() {
+    super.initState();
+    if (widget.note != null) {
+      note = widget.note;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,14 +40,18 @@ class _EditDiaryState extends State<EditDiary> {
           IconButton(
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                try {
-                  noteProvider.createNote(
-                    Note(
-                      title: title,
-                      description: desciption,
-                      dateCreated: DateTime.now(),
-                    ),
+                if (note == null) {
+                  note = Note(
+                    title: title,
+                    description: description,
+                    dateCreated: DateTime.now(),
                   );
+                } else {
+                  note!.title = title;
+                  note!.description = description;
+                }
+                try {
+                  noteProvider.createNote(note!);
                   // Navigate back
                   Navigator.pop(context);
                 } catch (error) {
@@ -69,7 +86,7 @@ class _EditDiaryState extends State<EditDiary> {
                     maxLength: 30,
                   ),
                   TextField(
-                    onChanged: (value) => setState(() => desciption = value),
+                    onChanged: (value) => setState(() => description = value),
                     keyboardType: TextInputType.multiline,
                     minLines: 1,
                     maxLines: null,

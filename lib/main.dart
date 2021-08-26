@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:personal_diary/app/diary/edit_diary.dart';
 import 'package:personal_diary/app/diary/home_page.dart';
 import 'package:personal_diary/app/intial_screens/authentication_screen.dart';
 import 'package:personal_diary/app/intial_screens/fingerprint_authentication_screen.dart';
@@ -34,7 +33,6 @@ class MyApp extends StatelessWidget {
 
           //
           HomePage.id: (context) => const HomePage(),
-          EditDiary.id: (context) => const EditDiary(),
         },
       );
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:personal_diary/app/diary/calendar_screen.dart';
-import 'package:personal_diary/app/diary/componeents/calendarwidget.dart';
+
 import 'package:personal_diary/app/diary/componeents/history_page.dart';
 import 'package:personal_diary/app/diary/edit_diary.dart';
 
@@ -46,7 +46,8 @@ class _HomePageState extends State<HomePage> {
       //
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, EditDiary.id);
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => EditDiary()));
         },
         child: const Icon(Icons.add),
         tooltip: 'Add Memories',
