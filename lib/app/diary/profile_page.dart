@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:personal_diary/app/intial_screens/authentication_screen.dart';
+import 'package:personal_diary/app/intial_screens/numpad.dart';
+import 'package:personal_diary/app/intial_screens/passcode_screen.dart';
 import 'package:personal_diary/models/user.dart';
 import 'package:personal_diary/utils/constants.dart';
 
@@ -67,6 +69,17 @@ class _UserProfilePageState extends State<UserProfilePage> {
               },
               child: const Text('Logout'),
             ),
+            // testing for passcode screen
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            LockScreen(phoneNumber: '12345')));
+              },
+              child: Text('Testing for passcode screen'),
+            )
           ],
         ),
       ),
