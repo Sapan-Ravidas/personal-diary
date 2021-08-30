@@ -48,6 +48,8 @@ class _HistoryPageState extends State<HistoryPage> {
     return Scaffold(
       backgroundColor: Colors.white10,
       appBar: AppBar(
+        backgroundColor: Colors.white10,
+        elevation: 0.0,
         toolbarHeight: 70.0,
         leading: Expanded(
           child: GestureDetector(
@@ -74,10 +76,14 @@ class _HistoryPageState extends State<HistoryPage> {
             user!.name != null
                 ? Text(
                     '${user!.name}',
-                    style: TextStyle(fontSize: 14.0),
+                    style:
+                        const TextStyle(fontSize: 14.0, color: Colors.black87),
                   )
                 : Container(),
-            Text('${user!.email}'),
+            Text(
+              '${user!.email}',
+              style: const TextStyle(color: Colors.black87),
+            ),
           ],
         )),
         actions: [
@@ -90,7 +96,10 @@ class _HistoryPageState extends State<HistoryPage> {
                 else
                   print("Error in logout");
               },
-              icon: const Icon(Icons.logout))
+              icon: const Icon(
+                Icons.logout,
+                color: Colors.black,
+              ))
         ],
       ),
       body: StreamBuilder<QuerySnapshot>(
