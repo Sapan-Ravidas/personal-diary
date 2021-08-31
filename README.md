@@ -1,6 +1,24 @@
 
 # My Diary
 
+## Have Two Branches with two diiferent Implementations
+- main (With Provider Package)
+- non-providers (without using provider package)
+
+## Common Features
+- Email Authentication
+- Google Authentication
+- LockScreen Auhthentication
+- Fingerprint Authentication
+
+## TODO:
+  - Non-Proviers branch code is completed. There is noting to be done. However it can be used for testing purpose in future.
+  
+  - Main
+  - LockScreen, FingerPrint, Email Authentication 
+  - Want to apply sliver animation in History Page
+  - Add facebook and twitter for signin option.
+
 <p float="left">
   <img src="https://user-images.githubusercontent.com/57538359/131505691-89679f9e-c897-4ab5-a697-71c3b5798f89.jpeg" width="200" style="margin-right: 10px;" />
   <img src="https://user-images.githubusercontent.com/57538359/131505696-51e0bef3-eff1-4c76-a27d-ef0d414cb50d.jpeg" width="200" style="margin-right: 10px;"/> 
@@ -13,4 +31,5 @@
   <img src="https://user-images.githubusercontent.com/57538359/131506883-93462857-6242-420d-8647-682594121ffe.jpeg" width="200" style="margin-right: 10px;"/>
 </p>
 
-
+## Future Ideas
+- A guide tour when user first visit the app.
