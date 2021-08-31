@@ -1,12 +1,16 @@
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:personal_diary/app/diary/home_page.dart';
+import 'package:personal_diary/app/intial_screens/make_pref.dart';
 import 'package:personal_diary/app/intial_screens/splash_screen.dart';
 import 'package:personal_diary/utils/constants.dart';
 
 class FingerPrintAuthenticationScreen extends StatefulWidget {
-  const FingerPrintAuthenticationScreen({Key? key}) : super(key: key);
+  FingerPrintAuthenticationScreen({Key? key, required this.pref})
+      : super(key: key);
   static String id = 'fingerPrintAuthentication';
+  String pref;
 
   @override
   _FingerPrintAuthenticationScreenState createState() =>
@@ -73,7 +77,10 @@ class _FingerPrintAuthenticationScreenState
       // if authentication is success head over to next page
       authorized = authenticated ? 'Authorized' : 'Not Authorized';
       if (authenticated) {
-        Navigator.pushReplacementNamed(context, SplashScreen.id);
+        if (widget.pref == '')
+          Navigator.pushReplacementNamed(context, MakePreferencePage.id);
+        else
+          Navigator.pushReplacementNamed(context, SplashScreen.id);
       }
 
       print(authorized);

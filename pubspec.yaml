@@ -40,12 +40,12 @@ dependencies:
   animated_text_kit: ^4.2.1
   google_sign_in: ^5.0.7
   local_auth: ^1.1.6
-  flutter_secure_storage: ^4.2.1
   font_awesome_flutter: ^9.1.0
   modal_progress_hud_nsn: ^0.1.0-nullsafety-1
-  syncfusion_flutter_calendar: ^19.2.57
   flutter_slidable: ^0.6.0
   intl: ^0.17.0
+  flutter_secure_storage: ^4.2.1
+  flutter_switch: ^0.3.2
   
 
 dev_dependencies:

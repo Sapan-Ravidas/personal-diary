@@ -1,11 +1,16 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:personal_diary/app/diary/home_page.dart';
 import 'package:personal_diary/app/intial_screens/authentication_screen.dart';
 import 'package:personal_diary/app/intial_screens/fingerprint_authentication_screen.dart';
 import 'package:personal_diary/app/intial_screens/login_screen.dart';
+import 'package:personal_diary/app/intial_screens/make_pref.dart';
+import 'package:personal_diary/app/intial_screens/passcode_screen.dart';
 import 'package:personal_diary/app/intial_screens/register_screen.dart';
 import 'package:personal_diary/app/intial_screens/splash_screen.dart';
+import 'package:personal_diary/services/shared_pref_service.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,8 +31,7 @@ class MyApp extends StatelessWidget {
               const InitFire(), // This is initiazation of our firebase instance and entry point of App
           SplashScreen.id: (context) => const SplashScreen(),
           AuthenticationScreen.id: (context) => const AuthenticationScreen(),
-          FingerPrintAuthenticationScreen.id: (context) =>
-              const FingerPrintAuthenticationScreen(),
+          MakePreferencePage.id: (context) => MakePreferencePage(),
           RegisterScreen.id: (context) => const RegisterScreen(),
           LoginScreen.id: (context) => const LoginScreen(),
 
@@ -50,6 +54,41 @@ class InitFire extends StatefulWidget {
 
 class _InitFireState extends State<InitFire> {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+  LocalAuthentication auth = LocalAuthentication();
+  bool _canCheckBiometric = false;
+  String validPin = '';
+  String lockPreference = '';
+
+  @override
+  void initState() {
+    super.initState();
+    getSharedPreferences();
+    _checkBiometrics();
+  }
+
+  Future<void> _checkBiometrics() async {
+    late bool canCheckBiometrics;
+    try {
+      canCheckBiometrics = await auth.canCheckBiometrics;
+    } on PlatformException catch (e) {
+      canCheckBiometrics = false;
+      print(e);
+    }
+    if (!mounted) return;
+    setState(() {
+      _canCheckBiometric = canCheckBiometrics;
+    });
+  }
+
+  void getSharedPreferences() async {
+    final pin = await storageService.read('pin');
+    final pref = await storageService.read('preference');
+    setState(() {
+      validPin = pin;
+      lockPreference = pref;
+      print('lock-preference' + lockPreference);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,9 +104,25 @@ class _InitFireState extends State<InitFire> {
           );
         }
 
-        // Once complete, show your application
+        // Once complete, show your application... start with fingerprint and passcode auth
         if (snapshot.connectionState == ConnectionState.done) {
-          return FingerPrintAuthenticationScreen();
+          if (_canCheckBiometric == false) {
+            return LockScreen(
+                validPin: validPin,
+                pref: lockPreference,
+                biometric: _canCheckBiometric);
+          } else {
+            if (lockPreference == '' || lockPreference == 'false')
+              return LockScreen(
+                validPin: validPin,
+                pref: lockPreference,
+                biometric: _canCheckBiometric,
+              );
+            else
+              return FingerPrintAuthenticationScreen(
+                pref: lockPreference,
+              );
+          }
         }
 
         // Otherwise, show something whilst waiting for initialization to complete
