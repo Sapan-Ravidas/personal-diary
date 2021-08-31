@@ -1,9 +1,13 @@
 
 # My Diary
 
+&nbsp;
+
 ## Have Two Branches with two diiferent Implementations
 - main (With Provider Package)
 - non-providers (without using provider package)
+
+&nbsp;
 
 ## Common Features
 - Email Authentication
@@ -11,13 +15,17 @@
 - LockScreen Auhthentication
 - Fingerprint Authentication
 
+&nbsp;
+
 ## TODO:
   - Non-Proviers branch code is completed. There is noting to be done. However it can be used for testing purpose in future.
   
-  - Main
-  - LockScreen, FingerPrint, Email Authentication 
-  - Want to apply sliver animation in History Page
-  - Add facebook and twitter for signin option.
+  - ### Main
+    - LockScreen, FingerPrint, Email Authentication 
+    - Want to apply sliver animation in History Page
+    - Add facebook and twitter for signin option.
+
+&nbsp;
 
 <p float="left">
   <img src="https://user-images.githubusercontent.com/57538359/131505691-89679f9e-c897-4ab5-a697-71c3b5798f89.jpeg" width="200" style="margin-right: 10px;" />
