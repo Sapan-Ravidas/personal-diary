@@ -17,7 +17,7 @@ class MakePreferencePage extends StatefulWidget {
 }
 
 class _MakePreferencePageState extends State<MakePreferencePage> {
-  bool _switchValue = true;
+  bool _switchValue = false;
 
   @override
   Widget build(BuildContext context) {

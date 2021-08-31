@@ -16,12 +16,19 @@ void main() {
   runApp(const MyApp());
 }
 
+enum _SupportState {
+  unknown,
+  supported,
+  unsupported,
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-        title: 'Flutter Demo',
+        title: 'My Diary',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.red,
         ),
@@ -54,22 +61,39 @@ class InitFire extends StatefulWidget {
 
 class _InitFireState extends State<InitFire> {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+
   LocalAuthentication auth = LocalAuthentication();
+  _SupportState _supportState = _SupportState.unknown;
+
   bool _canCheckBiometric = false;
+  List<BiometricType> _availableBiometric = [];
+
   String validPin = '';
   String lockPreference = '';
+
+  // ---------------------------------------------------------------------------
 
   @override
   void initState() {
     super.initState();
+
+    auth.isDeviceSupported().then(
+          (isSupported) => setState(() => _supportState = isSupported
+              ? _SupportState.supported
+              : _SupportState.unsupported),
+        );
+
     getSharedPreferences();
     _checkBiometrics();
   }
 
-  Future<void> _checkBiometrics() async {
+  // check if the device can check biometrics or not
+  void _checkBiometrics() async {
+    print("device is supoorted");
     late bool canCheckBiometrics;
     try {
       canCheckBiometrics = await auth.canCheckBiometrics;
+      print('can checkBiometrics $canCheckBiometrics');
     } on PlatformException catch (e) {
       canCheckBiometrics = false;
       print(e);
@@ -78,17 +102,40 @@ class _InitFireState extends State<InitFire> {
     setState(() {
       _canCheckBiometric = canCheckBiometrics;
     });
+
+    // get the available biometric sensors from our device
+
+    late List<BiometricType> availableBiometrics;
+    try {
+      availableBiometrics = await auth.getAvailableBiometrics();
+      print('availbale biometrics ');
+      print(availableBiometrics);
+    } on PlatformException catch (e) {
+      availableBiometrics = <BiometricType>[];
+      print(e);
+    }
+
+    if (!mounted) return;
+    setState(() {
+      _availableBiometric = availableBiometrics;
+    });
   }
 
+  // --------------------------------------------------------------------------
+  // Manage Shared Preferences
+  // --------------------------------------------------------------------------
   void getSharedPreferences() async {
     final pin = await storageService.read('pin');
     final pref = await storageService.read('preference');
     setState(() {
       validPin = pin;
       lockPreference = pref;
-      print('lock-preference' + lockPreference);
+      print('valid pin $pin');
+      print('lock screen preferences $pref');
     });
   }
+
+  // ---------------------------------------------------------------------------
 
   @override
   Widget build(BuildContext context) {
@@ -106,22 +153,28 @@ class _InitFireState extends State<InitFire> {
 
         // Once complete, show your application... start with fingerprint and passcode auth
         if (snapshot.connectionState == ConnectionState.done) {
-          if (_canCheckBiometric == false) {
+          if (_supportState != _SupportState.supported) {
             return LockScreen(
-                validPin: validPin,
-                pref: lockPreference,
-                biometric: _canCheckBiometric);
+              validPin: validPin,
+              pref: lockPreference,
+              canChechBiomterics: _canCheckBiometric,
+              listOfBiomertircs: _availableBiometric,
+              supportedBiomterics: _supportState == _SupportState.supported,
+            );
           } else {
-            if (lockPreference == '' || lockPreference == 'false')
+            // if device supports biometrics then check for preferences
+
+            if (lockPreference == '' || lockPreference == 'false') {
               return LockScreen(
                 validPin: validPin,
                 pref: lockPreference,
-                biometric: _canCheckBiometric,
+                canChechBiomterics: _canCheckBiometric,
+                listOfBiomertircs: _availableBiometric,
+                supportedBiomterics: _supportState == _SupportState.supported,
               );
-            else
-              return FingerPrintAuthenticationScreen(
-                pref: lockPreference,
-              );
+            } else {
+              return FingerPrintAuthenticationScreen(pref: lockPreference);
+            }
           }
         }
 

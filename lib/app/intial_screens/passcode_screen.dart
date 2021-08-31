@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:personal_diary/app/intial_screens/fingerprint_authentication_screen.dart';
 import 'package:personal_diary/app/intial_screens/numpad.dart';
 import 'package:personal_diary/app/intial_screens/splash_screen.dart';
@@ -9,10 +10,17 @@ import 'package:flutter/services.dart';
 class LockScreen extends StatefulWidget {
   String validPin;
   String pref;
-  bool biometric;
+  bool canChechBiomterics;
+  List<BiometricType> listOfBiomertircs;
+  bool supportedBiomterics;
 
-  LockScreen(
-      {required this.validPin, required this.pref, required this.biometric});
+  LockScreen({
+    required this.validPin,
+    required this.pref,
+    required this.canChechBiomterics,
+    required this.listOfBiomertircs,
+    required this.supportedBiomterics,
+  });
 
   @override
   _LockScreenState createState() => _LockScreenState();
@@ -39,7 +47,7 @@ class _LockScreenState extends State<LockScreen> {
                     padding: EdgeInsets.symmetric(vertical: 14),
                     child: Text(
                       '$message',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 22,
                         color: Color(0xFF818181),
                       ),
@@ -80,40 +88,34 @@ class _LockScreenState extends State<LockScreen> {
                   Expanded(
                     child: GestureDetector(
                       onTap: () async {
-                        print('widget biometric check ${widget.biometric}');
                         if (widget.validPin == '') {
                           await storageService.write('pin', code);
+                          print('password saved');
 
-                          widget.biometric
-                              ? Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          FingerPrintAuthenticationScreen(
-                                              pref: widget.pref)))
-                              : Navigator.pushReplacementNamed(
-                                  context, SplashScreen.id);
-                        } else {
-                          if (widget.validPin == code) {
-                            if (widget.pref == 'false') {
-                              Navigator.pushReplacementNamed(
-                                  context, SplashScreen.id);
-                            } else {
-                              widget.biometric
-                                  ? Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              FingerPrintAuthenticationScreen(
-                                                  pref: widget.pref)))
-                                  : Navigator.pushReplacementNamed(
-                                      context, SplashScreen.id);
-                            }
+                          if (!widget.supportedBiomterics) {
+                            Navigator.pushReplacementNamed(
+                                context, SplashScreen.id);
                           } else {
-                            setState(() {
-                              message = 'Invalid Pincode';
-                            });
+                            if (widget.canChechBiomterics &&
+                                widget.listOfBiomertircs.length > 0) {
+                              if (widget.pref == '') {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            FingerPrintAuthenticationScreen(
+                                                pref: widget.pref)));
+                              } else {
+                                Navigator.pushReplacementNamed(
+                                    context, SplashScreen.id);
+                              }
+                            }
                           }
+                        } else if (widget.validPin == code) {
+                          Navigator.pushReplacementNamed(
+                              context, SplashScreen.id);
+                        } else {
+                          setState(() => message = 'InValid Code');
                         }
                       },
                       child: Container(
