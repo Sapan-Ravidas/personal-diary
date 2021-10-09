@@ -24,6 +24,8 @@
     - LockScreen, FingerPrint, Email Authentication 
     - Want to apply sliver animation in History Page
     - Add facebook and twitter for signin option.
+  
+  - the above are alredy implemented in non-provider branch. Same is need to be implement in main branch.
 
 &nbsp;
 
